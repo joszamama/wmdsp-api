@@ -1,0 +1,99 @@
+package com.upo.wmdsp.components;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.upo.wmdsp.components.methods.DestructionMethod;
+import com.upo.wmdsp.components.methods.InsertionMethod;
+import com.upo.wmdsp.components.methods.ReconstructionMethod;
+
+public class Launcher {
+
+    private String CSV_FILE_NAME = "literature-ig.csv";
+    private String GRAPH_FOLDER = "literature";
+
+    public Launcher(String CSV_NAME, String GRAPH_FOLDER) {
+        this.CSV_FILE_NAME = CSV_NAME;
+        this.GRAPH_FOLDER = GRAPH_FOLDER;
+    }
+
+    public void start() {
+        File folder = new File("./src/main/resources/graphs/" + GRAPH_FOLDER + "/");
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile() && file.getName().endsWith(".txt")) {
+                    List<Result> results = launchIG(GRAPH_FOLDER + "/" + file.getName());
+                    export(results);
+                }
+            }
+        } else {
+            System.out.println("No files found in the folder");
+        }
+    }
+
+    public List<Result> launchIG(String filename) {
+        List<Result> results = new ArrayList<>();
+
+        List<Double> kWeights = List.of(0.1, 0.25, 0.5, 0.75, 1.0);
+        List<Integer> maxIterations = List.of(200);
+        List<Double> removeVerticesPercentages = List.of(0.2);
+
+        List<InsertionMethod> insertionMethods = List.of(
+                InsertionMethod.CONTRIBUTION_BASED_INSERTION);
+
+        List<DestructionMethod> destructionMethods = List.of(
+                DestructionMethod.RANDOM_BASED_DESTRUCTION,
+                DestructionMethod.EDGE_BASED_DESTRUCTION,
+                DestructionMethod.CONTRIBUTION_BASED_DESTRUCTION);
+
+        List<ReconstructionMethod> reconstructionMethods = List.of(
+                ReconstructionMethod.RANDOM_BASED_RECONSTRUCTION,
+                ReconstructionMethod.EDGE_BASED_RECONSTRUCTION,
+                ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION);
+
+        for (Double kWeight : kWeights) {
+            for (Integer maxIteration : maxIterations) {
+                for (Double removeVerticesPercentage : removeVerticesPercentages) {
+                    for (InsertionMethod insertionMethod : insertionMethods) {
+                        for (DestructionMethod destructionMethod : destructionMethods) {
+                            for (ReconstructionMethod reconstructionMethod : reconstructionMethods) {
+
+                                IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
+                                        insertionMethod, destructionMethod, reconstructionMethod);
+                                results.add(ig.run());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    private void export(List<Result> results) {
+        String CSV_PATH = "./src/main/resources/results/" + CSV_FILE_NAME;
+        boolean fileExists = Files.exists(Paths.get(CSV_PATH));
+
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
+            if (!fileExists) {
+                writer.println(
+                        "filename,kWeight,maxIterations,removeVerticesPercentage,insertionMethod,destructionMethod,reconstructionMethod,runtime(ms),size");
+            }
+
+            for (Result result : results) {
+                writer.println(result.toCSV());
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing results to CSV: " + e.getMessage());
+        }
+    }
+}
