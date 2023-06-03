@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W-MDSP API</title>
+    <!-- Import Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- Optional: Import custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="d-flex flex-column">
+    <!-- Navigation bar -->
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand" href="#">
+                <img src="https://www.rankingcyd.org/assets/img/logoUnis2/2479.png" alt="University Logo" height="30">
+                W-MDSP API
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs">Docs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <!-- Home section -->
+    <section id="home" class="py-5">
+        <div class="container">
+            <h1>W-MDSP API</h1>
+            <p>A dominating set in a weighted graph is a set of vertices such that every vertex outside the set is
+                adjacent to a vertex in the set, and the sum of edge weights incident to the set for every vertex is at
+                least K. The domination number is the minimum cardinality of a dominating set in the graph. The problem
+                of finding the minimum weighted dominating set is a combinatorial optimization problem that has been
+                proved to be NP-hard. Given the difficulty of this problem, an Iterated Greedy algorithm is proposed
+                for its solution and it is compared to the solution given by an exact algorithm and by the state-of-art
+                algorithms.</p>
+            <br>
+            <h2>Main Features</h2>
+            <p>Our implementation includes the following Greedy algorithms:</p>
+            <ul>
+                <li>Basic Greedy Algorithm: This algorithm utilizes insertion, destruction, and reconstruction phases.
+                    For each phase, we have defined four different heuristics.</li>
+                <li>Bioinspired Greedy Algorithm: This algorithm allows for the selection of constructive and
+                    destructive heuristics using a Wheel selection mechanism.</li>
+            </ul>
+
+            <p>We have also incorporated an exact resolution method; however, its capabilities are limited. Also, our
+                Java API is designed to be easily extendable, allowing anyone to modify the code and make change
+                requests in order to improve the implementation.</p>
+
+            <br><br>
+
+            <h2>Built With</h2>
+            <div class="row justify-content-center pt-2">
+                <div class="col-md-3 col-sm-6 col-12 mb-1">
+                    <!-- Image 5 goes here -->
+                    <a href="https://maven.apache.org/">
+                        <img src="https://i0.wp.com/blog.knoldus.com/wp-content/uploads/2021/09/maven.png?fit=512%2C251&ssl=1"
+                            alt="Maven logo" class="img-fluid" style="max-width: 100%;">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-5">
+                    <!-- Image 5 goes here -->
+                    <a href="https://www.java.com/es/">
+                        <img src="https://www.forcode.es/wp-content/uploads/2012/12/Logo-Java.jpg" alt="Java logo"
+                            class="img-fluid" style="max-width: 90%;">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-4">
+                    <!-- Image 1 goes here -->
+                    <a href="https://www.docker.com/">
+                        <img src="https://aprenderbigdata.com/wp-content/uploads/docker-logo-1024x876.png"
+                            alt="Docker logo" class="img-fluid" style="max-width: 55%;">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start mt-auto">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 W-MDSP API
+            <a href="https://github.com/joszamama/wmdsp-api" target="_blank">
+                <i class="fab fa-github mx-2">Link to code repository on GitHub</i>
+            </a>
+        </div>
+
+    </footer>
+
+    <!-- Import Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <!-- Import jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle click event on the navbar-toggler icon
+            $('.navbar-toggler').click(function () {
+                $('.navbar-collapse').slideToggle();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
