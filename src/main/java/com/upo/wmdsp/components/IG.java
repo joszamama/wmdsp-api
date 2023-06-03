@@ -49,7 +49,7 @@ public class IG {
 
         Set<Integer> startingSolution = Insertion.getInitialSolution(graph, insertionMethod);
         Set<Integer> currentBestSolution = new HashSet<>(startingSolution);
-
+        
         int i = 0;
         while (i < MAX_ITERATIONS_WITHOUT_IMPROVEMENT) {
             Set<Integer> nextSolution = new HashSet<>(currentBestSolution);
