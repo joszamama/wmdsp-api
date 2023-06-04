@@ -85,7 +85,7 @@ public class IG {
     public Result runWheel() {
         Graph graph = new Graph(filename, K_WEIGHT);
 
-        Wheel wheel = new Wheel(graph, MAX_ITERATIONS_WITHOUT_IMPROVEMENT / WHEEL_ITERATIONS);
+        Wheel wheel = new Wheel(graph, WHEEL_ITERATIONS);
         HashMap<WheelMethod, List<Integer>> wheelResults = new HashMap<WheelMethod, List<Integer>>();
 
         long startTime = System.currentTimeMillis();
@@ -97,12 +97,11 @@ public class IG {
         int j = 0;
         while (i < MAX_ITERATIONS_WITHOUT_IMPROVEMENT) {
             if (j >= WHEEL_ITERATIONS) {
-                wheel = new Wheel(wheelResults);
+                wheel.updateWheel(wheelResults, WHEEL_ITERATIONS);
                 wheelResults = new HashMap<WheelMethod, List<Integer>>();
                 j = 0;
             }
-            j++;
-            i++;
+
             Set<Integer> nextSolution = new HashSet<>(currentBestSolution);
 
             WheelMethod wheelMethod = wheel.pickMethod();
@@ -117,11 +116,16 @@ public class IG {
                 wheelResults.get(wheelMethod).set(0, wheelResults.get(wheelMethod).get(0) + 1);
                 currentBestSolution = new HashSet<>(feasibleSolution);
                 i = 0;
+                j++;
             }
             if (feasibleSolution.size() == currentBestSolution.size()) {
                 wheelResults.get(wheelMethod).set(1, wheelResults.get(wheelMethod).get(1) + 1);
+                i++;
+                j++;
             } else {
                 wheelResults.get(wheelMethod).set(2, wheelResults.get(wheelMethod).get(2) + 1);
+                i++;
+                j++;
             }
         }
 
@@ -135,19 +139,20 @@ public class IG {
     }
 
     public static void main(String args[]) {
-        String file = "random/w_rnd_graph_500_20_1.txt";
+        String file = "literature/w_zachary.txt";
 
         Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
-        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 200;
+        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 160;
 
-        InsertionMethod insertionMethod = InsertionMethod.EDGE_BASED_INSERTION;
+        InsertionMethod insertionMethod = InsertionMethod.COMPLETE_BASED_INSERTION;
         DestructionMethod destructionMethod = DestructionMethod.COMPLETE_BASED_DESTRUCTION;
         ReconstructionMethod reconstructionMethod = ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION;
 
-        IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 0,
+        IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 80,
                 insertionMethod, destructionMethod, reconstructionMethod);
 
-        System.out.println(ig.runGreedy());
+        System.out.println(ig.runGreedy().greedyToString());
+        System.out.println(ig.runWheel().wheelToString());
     }
 }

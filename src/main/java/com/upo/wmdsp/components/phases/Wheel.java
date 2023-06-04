@@ -38,47 +38,37 @@ public class Wheel {
         Collections.shuffle(availableMethods);
     }
 
-    public Wheel(HashMap<WheelMethod, List<Integer>> methodResults) {
-        availableMethods = new ArrayList<>();
-        wheelMap = new HashMap<>();
+    public void updateWheel(HashMap<WheelMethod, List<Integer>> methodResults, int iterations) {
+        double totalGood = 0.0;
+        double totalBad = 0.0;
 
-        double decayFactor = 0.1; // Adjust the decay factor as needed
+        // Calculate the total number of good and bad results
+        for (List<Integer> counts : methodResults.values()) {
+            totalGood += counts.get(0);
+            totalBad += counts.get(2);
+        }
 
+        // Update the wheelMap based on the performance of each method
         for (Map.Entry<WheelMethod, List<Integer>> entry : methodResults.entrySet()) {
             WheelMethod method = entry.getKey();
-            List<Integer> results = entry.getValue();
+            List<Integer> counts = entry.getValue();
 
-            int goodCount = 0;
-            int sameCount = 0;
-            int worseCount = 0;
+            double goodPercentage = (totalGood != 0.0) ? counts.get(0) / totalGood : 1.0;
+            double badPercentage = counts.get(2) / totalBad;
 
-            if (!results.isEmpty()) {
-                goodCount = results.get(0);
-                sameCount = results.get(1);
-                worseCount = results.get(2);
-            }
+            double newProbability = wheelMap.get(method) * (1 + goodPercentage) / (1 + badPercentage);
+            wheelMap.put(method, newProbability);
+        }
 
-            // Calculate the total count
-            int totalCount = goodCount + sameCount + worseCount;
+        // Recreate the availableMethods list based on the updated probabilities
+        availableMethods.clear();
+        for (Map.Entry<WheelMethod, Double> entry : wheelMap.entrySet()) {
+            WheelMethod method = entry.getKey();
+            double probability = entry.getValue();
 
-            // Calculate the weight based on the counts
-            double weight = (double) goodCount / totalCount;
-
-            // Apply decay to weight if worseCount is non-zero
-            if (worseCount > 0) {
-                weight *= (1 - decayFactor);
-            }
-
-            wheelMap.put(method, weight);
-
-            // Add the method to availableMethods based on counts
-            for (int i = 0; i < goodCount; i++) {
+            int repetitions = Math.max(1, (int) (iterations * probability)); // Minimum 1 repetition
+            for (int i = 0; i < repetitions; i++) {
                 availableMethods.add(method);
-            }
-
-            // Remove the method from availableMethods if its weight has decreased to 0
-            if (weight == 0) {
-                availableMethods.remove(method);
             }
         }
 
@@ -88,41 +78,9 @@ public class Wheel {
 
     public WheelMethod pickMethod() {
         if (availableMethods.isEmpty()) {
-            // Regenerate the availableMethods list if it becomes empty
-            availableMethods.addAll(wheelMap.keySet());
-
-            // Shuffle the availableMethods list
-            Collections.shuffle(availableMethods);
+            return new WheelMethod(DestructionMethod.RANDOM_BASED_DESTRUCTION,
+                    ReconstructionMethod.RANDOM_BASED_RECONSTRUCTION);
         }
-        // Select the first method from the availableMethods list
-        WheelMethod selectedMethod = availableMethods.get(0);
-
-        // Remove the selected method from the availableMethods list
-        availableMethods.remove(0);
-
-        // Shuffle the availableMethods list
-        Collections.shuffle(availableMethods);
-
-        return selectedMethod;
+        return availableMethods.remove(0);
     }
-
-    @Override
-    public String toString() {
-        return wheelMap.toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Wheel) {
-            Wheel other = (Wheel) obj;
-            return wheelMap.equals(other.wheelMap);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return wheelMap.hashCode();
-    }
-
 }
