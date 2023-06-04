@@ -9,6 +9,7 @@ public class Result {
     private double kWeight;
     private int maxIterations;
     private double removeVerticesPercentage;
+    private int wheelIterations;
     private InsertionMethod insertionMethod;
     private DestructionMethod destructionMethod;
     private ReconstructionMethod reconstructionMethod;
@@ -16,12 +17,13 @@ public class Result {
     private int size;
 
     public Result(String filename, double kWeight, int maxIterations,
-            double removeVerticesPercentage, InsertionMethod insertionMethod,
+            double removeVerticesPercentage, int wheelIterations, InsertionMethod insertionMethod,
             DestructionMethod destructionMethod, ReconstructionMethod reconstructionMethod, long runtime, int size) {
         this.filename = filename;
         this.kWeight = kWeight;
         this.maxIterations = maxIterations;
         this.removeVerticesPercentage = removeVerticesPercentage;
+        this.wheelIterations = wheelIterations;
         this.insertionMethod = insertionMethod;
         this.destructionMethod = destructionMethod;
         this.reconstructionMethod = reconstructionMethod;
@@ -29,17 +31,28 @@ public class Result {
         this.size = size;
     }
 
-    @Override
-    public String toString() {
+    public String greedyToString() {
         return "The W-MDSP solution for graph " + filename + " with kWeight " + kWeight
                 + " and settings: {maxIterations:" + maxIterations + ", removeVerticesPercentage:"
                 + removeVerticesPercentage + "}, using " + insertionMethod + ", " + destructionMethod + " and "
                 + reconstructionMethod + " has a size of " + size + " and a runtime of " + runtime + " ms.";
     }
 
-    public String toCSV() {
+    public String greedyToCSV() {
         return filename + "," + kWeight + "," + maxIterations + "," + removeVerticesPercentage + ","
                 + insertionMethod + "," + destructionMethod + "," + reconstructionMethod + "," + runtime + "," + size;
+    }
+
+    public String wheelToString() {
+        return "The W-MDSP solution for graph " + filename + " with kWeight " + kWeight
+                + " and settings: {maxIterations:" + maxIterations + ", removeVerticesPercentage:"
+                + removeVerticesPercentage + ", wheelIterations:" + wheelIterations + "}, "
+                + " has a size of " + size + " and a runtime of " + runtime + " ms.";
+    }
+
+    public String wheelToCSV() {
+        return filename + "," + kWeight + "," + maxIterations + "," + removeVerticesPercentage + ","
+                + wheelIterations + "," + runtime + "," + size;
     }
 
 }

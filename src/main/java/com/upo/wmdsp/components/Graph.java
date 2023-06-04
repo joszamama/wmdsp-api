@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.upo.wmdsp.utils.Reader;
+import com.upo.wmdsp.components.utils.Reader;
 
 public class Graph {
 
