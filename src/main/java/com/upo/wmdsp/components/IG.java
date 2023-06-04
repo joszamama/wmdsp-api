@@ -139,20 +139,19 @@ public class IG {
     }
 
     public static void main(String args[]) {
-        String file = "literature/w_zachary.txt";
+        String file = "random/w_rnd_graph_2000_30_3.txt";
 
-        Double K = 0.5;
+        Double K = 0.25;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
         int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 160;
 
         InsertionMethod insertionMethod = InsertionMethod.COMPLETE_BASED_INSERTION;
-        DestructionMethod destructionMethod = DestructionMethod.COMPLETE_BASED_DESTRUCTION;
-        ReconstructionMethod reconstructionMethod = ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION;
+        DestructionMethod destructionMethod = DestructionMethod.CONTRIBUTION_BASED_DESTRUCTION;
+        ReconstructionMethod reconstructionMethod = ReconstructionMethod.EDGE_BASED_RECONSTRUCTION;
 
         IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 80,
                 insertionMethod, destructionMethod, reconstructionMethod);
 
         System.out.println(ig.runGreedy().greedyToString());
-        System.out.println(ig.runWheel().wheelToString());
     }
 }
