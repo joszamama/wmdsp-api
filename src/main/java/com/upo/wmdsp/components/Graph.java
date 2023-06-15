@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.upo.wmdsp.components.utils.Reader;
+import com.upo.wmdsp.components.utils.MatrixReader;
 
 public class Graph {
 
@@ -24,7 +24,7 @@ public class Graph {
     private HashMap<Set<Integer>, HashMap<Integer, Double>> coverageCache = new HashMap<>();
 
     public Graph(String filename, Double K_VALUE) {
-        List<Double>[] weightsList = Reader.matrixToList(Reader.readGraph(filename));
+        List<Double>[] weightsList = MatrixReader.matrixToList(MatrixReader.readGraph(filename));
         GRAPH_K_WEIGHT = K_VALUE;
 
         for (int i = 0; i < weightsList.length; i++) {
@@ -52,8 +52,16 @@ public class Graph {
         return vertices;
     }
 
+    public Integer getNumVertices() {
+        return vertices.size();
+    }
+
     public List<HashMap<Integer, Double>> getEdges() {
         return edges;
+    }
+
+    public Integer getNumEdges() {
+        return edges.stream().mapToInt(HashMap::size).sum() / 2;
     }
 
     public HashMap<Integer, Double> getContributionOfVertex(Integer vertex) {

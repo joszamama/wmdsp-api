@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Reader {
+public class MatrixReader {
 
     public static double[][] readGraph(String filename) {
         double[][] adjMatrix = null;

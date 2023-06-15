@@ -84,8 +84,8 @@ public class IG {
         this.runtime = (endTime - startTime);
         this.solution = currentBestSolution;
 
-        return new Result(filename, K_WEIGHT, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE,
-                0, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size());
+        return new Result(filename, graph.getNumVertices(), graph.getNumEdges(), K_WEIGHT, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE,
+                0, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size(), solution);
     }
 
     public Result runWheel() {
@@ -145,12 +145,12 @@ public class IG {
         this.runtime = (endTime - startTime);
         this.solution = currentBestSolution;
 
-        return new Result(filename, K_WEIGHT, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE,
-                WHEEL_ITERATIONS, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size());
+        return new Result(filename, graph.getNumVertices(), graph.getNumEdges(), K_WEIGHT, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE,
+                WHEEL_ITERATIONS, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size(), solution);
     }
 
     public static void main(String args[]) {
-        String file = "random/w_rnd_graph_2000_30_3.txt";
+        String file = "random/w_rnd_graph_5000_30_3.txt";
 
         Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;

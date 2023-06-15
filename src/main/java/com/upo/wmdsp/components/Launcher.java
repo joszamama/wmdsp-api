@@ -56,34 +56,11 @@ public class Launcher {
         }
     }
 
-    public List<Result> launchWheel(String filename) {
-        List<Result> results = new ArrayList<>();
-
-        List<Double> kWeights = List.of(0.1, 0.25, 0.5, 0.75, 1.0);
-        List<Integer> maxIterations = List.of(200);
-        List<Double> removeVerticesPercentages = List.of(0.2);
-        List<Integer> wheelIterations = List.of(80);
-
-        for (Double kWeight : kWeights) {
-            for (Integer maxIteration : maxIterations) {
-                for (Double removeVerticesPercentage : removeVerticesPercentages) {
-                    for (Integer wheelIteration : wheelIterations) {
-
-                        IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
-                                wheelIteration, null, null, null);
-                        results.add(ig.runWheel());
-                    }
-                }
-            }
-        }
-        return results;
-    }
-
     public List<Result> launchGreedy(String filename) {
         List<Result> results = new ArrayList<>();
 
         List<Double> kWeights = List.of(0.1, 0.25, 0.5, 0.75, 1.0);
-        List<Integer> maxIterations = List.of(200);
+        List<Integer> maxIterations = List.of(160);
         List<Double> removeVerticesPercentages = List.of(0.2);
 
         List<InsertionMethod> insertionMethods = List.of(
@@ -120,6 +97,29 @@ public class Launcher {
         return results;
     }
 
+    public List<Result> launchWheel(String filename) {
+        List<Result> results = new ArrayList<>();
+
+        List<Double> kWeights = List.of(0.1, 0.25, 0.5, 0.75, 1.0);
+        List<Integer> maxIterations = List.of(160);
+        List<Double> removeVerticesPercentages = List.of(0.2);
+        List<Integer> wheelIterations = List.of(32);
+
+        for (Double kWeight : kWeights) {
+            for (Integer maxIteration : maxIterations) {
+                for (Double removeVerticesPercentage : removeVerticesPercentages) {
+                    for (Integer wheelIteration : wheelIterations) {
+
+                        IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
+                                wheelIteration, null, null, null);
+                        results.add(ig.runWheel());
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
     private void exportGreedy(List<Result> results) {
         String CSV_PATH = "./src/main/resources/results/" + CSV_FILE_NAME;
         boolean fileExists = Files.exists(Paths.get(CSV_PATH));
@@ -127,7 +127,7 @@ public class Launcher {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
             if (!fileExists) {
                 writer.println(
-                        "filename,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,insertionMethod,destructionMethod,reconstructionMethod,runtime(ms),size");
+                        "filename,numVertices,numEdges,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,insertionMethod,destructionMethod,reconstructionMethod,runtime(ms),size,solution");
             }
 
             for (Result result : results) {
@@ -145,7 +145,7 @@ public class Launcher {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
             if (!fileExists) {
                 writer.println(
-                        "filename,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,runtime(ms),size");
+                        "filename,numVertices,numEdges,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,runtime(ms),size,solution");
             }
 
             for (Result result : results) {
