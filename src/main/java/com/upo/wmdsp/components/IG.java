@@ -24,6 +24,7 @@ public class IG {
     Integer MAX_ITERATIONS_WITHOUT_IMPROVEMENT;
     Double REMOVE_VERTICES_PERCENTAGE;
     Integer WHEEL_ITERATIONS;
+    Integer MINUTES_TIMEOUT = 1;
 
     InsertionMethod insertionMethod;
     DestructionMethod destructionMethod;
@@ -61,15 +62,20 @@ public class IG {
         while (i < MAX_ITERATIONS_WITHOUT_IMPROVEMENT) {
             Set<Integer> nextSolution = new HashSet<>(currentBestSolution);
             Set<Integer> unfeasableSolution = Destruction.getUnfeasibleSolution(graph, nextSolution,
-                    destructionMethod, REMOVE_VERTICES_PERCENTAGE);
+                    destructionMethod, REMOVE_VERTICES_PERCENTAGE, MINUTES_TIMEOUT, System.currentTimeMillis());
             Set<Integer> feasibleSolution = Reconstruction.getFeasibleSolution(graph, unfeasableSolution,
-                    reconstructionMethod);
+                    reconstructionMethod, MINUTES_TIMEOUT, System.currentTimeMillis());
 
             if (feasibleSolution.size() < currentBestSolution.size()) {
                 currentBestSolution = new HashSet<>(feasibleSolution);
                 i = 0;
             } else {
                 i++;
+            }
+
+            if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
+                System.out.println("Timeout reached");
+                break;
             }
         }
 
@@ -108,9 +114,9 @@ public class IG {
             wheelResults.putIfAbsent(wheelMethod, new ArrayList<>(Arrays.asList(0, 0, 0)));
 
             Set<Integer> unfeasableSolution = Destruction.getUnfeasibleSolution(graph, nextSolution,
-                    wheelMethod.getDestructionMethod(), REMOVE_VERTICES_PERCENTAGE);
+                    wheelMethod.getDestructionMethod(), REMOVE_VERTICES_PERCENTAGE, MINUTES_TIMEOUT, System.currentTimeMillis());
             Set<Integer> feasibleSolution = Reconstruction.getFeasibleSolution(graph, unfeasableSolution,
-                    wheelMethod.getReconstructionMethod());
+                    wheelMethod.getReconstructionMethod(), MINUTES_TIMEOUT, System.currentTimeMillis());
 
             if (feasibleSolution.size() < currentBestSolution.size()) {
                 wheelResults.get(wheelMethod).set(0, wheelResults.get(wheelMethod).get(0) + 1);
@@ -127,6 +133,11 @@ public class IG {
                 i++;
                 j++;
             }
+
+            if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
+                System.out.println("Global timeout reached");
+                break;
+            }
         }
 
         long endTime = System.currentTimeMillis();
@@ -141,15 +152,15 @@ public class IG {
     public static void main(String args[]) {
         String file = "random/w_rnd_graph_2000_30_3.txt";
 
-        Double K = 0.25;
+        Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
         int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 160;
 
         InsertionMethod insertionMethod = InsertionMethod.COMPLETE_BASED_INSERTION;
-        DestructionMethod destructionMethod = DestructionMethod.CONTRIBUTION_BASED_DESTRUCTION;
-        ReconstructionMethod reconstructionMethod = ReconstructionMethod.EDGE_BASED_RECONSTRUCTION;
+        DestructionMethod destructionMethod = DestructionMethod.RANDOM_BASED_DESTRUCTION;
+        ReconstructionMethod reconstructionMethod = ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION;
 
-        IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 80,
+        IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 32,
                 insertionMethod, destructionMethod, reconstructionMethod);
 
         System.out.println(ig.runGreedy().greedyToString());

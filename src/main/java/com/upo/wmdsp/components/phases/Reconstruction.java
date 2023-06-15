@@ -8,7 +8,11 @@ import com.upo.wmdsp.components.methods.ReconstructionMethod;
 public class Reconstruction {
 
     public static Set<Integer> getFeasibleSolution(Graph graph, Set<Integer> dset,
-            ReconstructionMethod reconstructionMethod) {
+            ReconstructionMethod reconstructionMethod, Integer MINUTES_TIMEOUT, long startTime) {
+        if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
+            System.out.println("Reconstruction timeout reached");
+            return dset;
+        }
         while (!graph.isDominatingSet(dset)) {
             switch (reconstructionMethod) {
                 case RANDOM_BASED_RECONSTRUCTION:
