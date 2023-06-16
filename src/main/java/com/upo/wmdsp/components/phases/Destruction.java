@@ -9,12 +9,12 @@ public class Destruction {
 
     public static Set<Integer> getUnfeasibleSolution(Graph graph, Set<Integer> dset, DestructionMethod destructionMethod,
             Double REMOVAL_VERTEX_PERCENTAGE, Integer MINUTES_TIMEOUT, long startTime) {
-        if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
-            System.out.println("Destruction timeout reached");
-            return dset;
-        }
         int verticesToRemove = (int) (dset.size() * REMOVAL_VERTEX_PERCENTAGE);
         for (int i = 0; i < verticesToRemove; i++) {
+            if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
+                System.out.println("Destruction timeout reached");
+                return dset;
+            }
             switch (destructionMethod) {
                 case RANDOM_BASED_DESTRUCTION:
                     dset.remove(graph.getRandomVertex());

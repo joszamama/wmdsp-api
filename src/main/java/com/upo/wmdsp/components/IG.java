@@ -24,7 +24,7 @@ public class IG {
     Integer MAX_ITERATIONS_WITHOUT_IMPROVEMENT;
     Double REMOVE_VERTICES_PERCENTAGE;
     Integer WHEEL_ITERATIONS;
-    Integer MINUTES_TIMEOUT = 1;
+    Integer MINUTES_TIMEOUT = 3;
 
     InsertionMethod insertionMethod;
     DestructionMethod destructionMethod;
@@ -74,7 +74,7 @@ public class IG {
             }
 
             if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
-                System.out.println("Timeout reached");
+                System.out.println("Global Timeout reached");
                 break;
             }
         }
@@ -147,6 +147,15 @@ public class IG {
 
         return new Result(filename, graph.getNumVertices(), graph.getNumEdges(), K_WEIGHT, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE,
                 WHEEL_ITERATIONS, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size(), solution);
+    }
+
+    // tostring
+    public String toString() {
+        return "IG [filename=" + filename + ", K_WEIGHT=" + K_WEIGHT + ", MAX_ITERATIONS_WITHOUT_IMPROVEMENT="
+                + MAX_ITERATIONS_WITHOUT_IMPROVEMENT + ", REMOVE_VERTICES_PERCENTAGE=" + REMOVE_VERTICES_PERCENTAGE
+                + ", WHEEL_ITERATIONS=" + WHEEL_ITERATIONS + ", MINUTES_TIMEOUT=" + MINUTES_TIMEOUT
+                + ", insertionMethod=" + insertionMethod + ", destructionMethod=" + destructionMethod
+                + ", reconstructionMethod=" + reconstructionMethod + "]";
     }
 
     public static void main(String args[]) {

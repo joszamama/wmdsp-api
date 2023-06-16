@@ -87,7 +87,8 @@ public class Launcher {
 
                                 IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
                                         0, insertionMethod, destructionMethod, reconstructionMethod);
-                                results.add(ig.runGreedy());
+                                System.out.println("Starting " + ig.toString());
+                                        results.add(ig.runGreedy());
                             }
                         }
                     }
@@ -105,13 +106,16 @@ public class Launcher {
         List<Double> removeVerticesPercentages = List.of(0.2);
         List<Integer> wheelIterations = List.of(32);
 
+        InsertionMethod insertionMethod = InsertionMethod.COMPLETE_BASED_INSERTION;
+
         for (Double kWeight : kWeights) {
             for (Integer maxIteration : maxIterations) {
                 for (Double removeVerticesPercentage : removeVerticesPercentages) {
                     for (Integer wheelIteration : wheelIterations) {
 
                         IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
-                                wheelIteration, null, null, null);
+                                wheelIteration, insertionMethod, null, null);
+                        System.out.println("Starting " + ig.toString());
                         results.add(ig.runWheel());
                     }
                 }
@@ -127,7 +131,7 @@ public class Launcher {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
             if (!fileExists) {
                 writer.println(
-                        "filename,numVertices,numEdges,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,insertionMethod,destructionMethod,reconstructionMethod,runtime(ms),size,solution");
+                        "filename;numVertices;numEdges;kWeight;maxIterations;removeVerticesPercentage;wheelIterations;insertionMethod;destructionMethod;reconstructionMethod;runtime(ms);size;solution");
             }
 
             for (Result result : results) {
@@ -145,7 +149,7 @@ public class Launcher {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
             if (!fileExists) {
                 writer.println(
-                        "filename,numVertices,numEdges,kWeight,maxIterations,removeVerticesPercentage,wheelIterations,runtime(ms),size,solution");
+                        "filename;numVertices;numEdges;kWeight;maxIterations;removeVerticesPercentage;wheelIterations;runtime(ms);size;solution");
             }
 
             for (Result result : results) {
@@ -154,5 +158,10 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Error writing results to CSV: " + e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        Launcher launcher = new Launcher("random-wheel.csv", "random");
+        launcher.startWheel();
     }
 }

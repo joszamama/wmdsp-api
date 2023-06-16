@@ -47,8 +47,8 @@ public class Result {
     }
 
     public String greedyToCSV() {
-        return filename + "," + numVertices + "," + numEdges + "," + kWeight + "," + maxIterations + "," + removeVerticesPercentage + ","
-                + insertionMethod + "," + destructionMethod + "," + reconstructionMethod + "," + runtime + "," + size + "," + solution;
+        return filename + ";" + numVertices + ";" + numEdges + ";" + kWeight + ";" + maxIterations + ";" + removeVerticesPercentage + ";"
+                + insertionMethod + ";" + destructionMethod + ";" + reconstructionMethod + ";" + runtime + ";" + size + ";" + solution;
     }
 
     public String wheelToString() {
@@ -59,8 +59,8 @@ public class Result {
     }
 
     public String wheelToCSV() {
-        return filename + "," + numVertices + "," + numEdges + "," + kWeight + "," + maxIterations + "," + removeVerticesPercentage + ","
-                + wheelIterations + "," + runtime + "," + size + "," + solution;
+        return filename + ";" + numVertices + ";" + numEdges + ";" + kWeight + ";" + maxIterations + ";" + removeVerticesPercentage + ";"
+                + wheelIterations + ";" + runtime + ";" + size + ";" + solution;
     }
 
 }
