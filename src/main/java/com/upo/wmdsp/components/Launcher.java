@@ -161,7 +161,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("random-wheel.csv", "random");
+        Launcher launcher = new Launcher("subset-wheel.csv", "subset");
         launcher.startWheel();
     }
 }
