@@ -30,7 +30,7 @@ public class Launcher {
 
         if (files != null) {
             for (File file : files) {
-                if (file.isFile() && file.getName().endsWith(".txt")) {
+                if (file.isFile() && file.getName().endsWith(".txt") && Math.random() <= 0.2) {
                     List<Result> results = launchGreedy(GRAPH_FOLDER + "/" + file.getName());
                     exportGreedy(results);
                 }
@@ -161,7 +161,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("subset-wheel.csv", "subset");
-        launcher.startWheel();
+        Launcher launcher = new Launcher("random-greedy.csv", "random");
+        launcher.startGreedy();
     }
 }

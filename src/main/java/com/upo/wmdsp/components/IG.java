@@ -159,7 +159,7 @@ public class IG {
     }
 
     public static void main(String args[]) {
-        String file = "random/w_rnd_graph_2000_50_4.txt";
+        String file = "random/w_rnd_graph_4000_50_1.txt";
 
         Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
@@ -167,7 +167,7 @@ public class IG {
 
         InsertionMethod insertionMethod = InsertionMethod.COMPLETE_BASED_INSERTION;
         DestructionMethod destructionMethod = DestructionMethod.RANDOM_BASED_DESTRUCTION;
-        ReconstructionMethod reconstructionMethod = ReconstructionMethod.EDGE_BASED_RECONSTRUCTION;
+        ReconstructionMethod reconstructionMethod = ReconstructionMethod.COMPLETE_BASED_RECONSTRUCTION;
 
         IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 32,
                 insertionMethod, destructionMethod, reconstructionMethod);
