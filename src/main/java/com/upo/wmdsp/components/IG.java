@@ -159,9 +159,9 @@ public class IG {
     }
 
     public static void main(String args[]) {
-        String file = "subset/MOD_w_rnd_graph_4000_50_1.txt";
+        String file = "random/w_rnd_graph_2000_50_4.txt";
 
-        Double K = 0.75;
+        Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
         int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 50;
 

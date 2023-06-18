@@ -195,6 +195,9 @@ public class Graph {
                 bestContribution = contributionSum;
             }
         }
+        if (vertexset.contains(bestVertex)) {
+            return getRandomVertex(vertexset);
+        }
         return bestVertex;
     }
 
@@ -230,6 +233,9 @@ public class Graph {
                 bestVertex = vertex;
                 bestContribution = contributionSum;
             }
+        }
+        if (vertexset.contains(bestVertex)) {
+            return getRandomVertex(vertexset);
         }
         return bestVertex;
     }
@@ -269,6 +275,9 @@ public class Graph {
                 setcoverage = newsetcoverage;
             }
         }
+        if (vertexset.contains(bestVertex)) {
+            return getRandomVertex(vertexset);
+        }
         return bestVertex;
 
     }
@@ -295,25 +304,29 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        Graph graph = new Graph("literature/w_david.txt", 0.5);
+        Graph graph = new Graph("literature/w_lesmis.txt", 0.25);
 
+        // add 32, 0, 38, 9, 74, 10, 45, 46, 48, 49, 50, 51, 21, 23, 25, 57
         Set<Integer> dset = new HashSet<>();
-        dset.add(15);
-        dset.add(18);
-        dset.add(25);
-        dset.add(33);
-        dset.add(47);
-        dset.add(48);
-        dset.add(51);
-        dset.add(61);
-        dset.add(64);
-        dset.add(65);
+        dset.add(32);
+        dset.add(0);
+        dset.add(38);
+        dset.add(9);
         dset.add(74);
-        dset.add(75);
-        dset.add(81);
-        dset.add(82);
-        dset.add(84);
+        dset.add(10);
+        dset.add(45);
+        dset.add(46);
+        dset.add(48);
+        dset.add(49);
+        dset.add(50);
+        dset.add(51);
+        dset.add(21);
+        dset.add(23);
+        dset.add(25);
+        dset.add(57);
 
-        System.out.println(graph.isDominatingSet(dset));
+        while (true) {
+            System.out.println(graph.getNextBestEdgeBasedVertex(dset));
+        }
     }
 }
