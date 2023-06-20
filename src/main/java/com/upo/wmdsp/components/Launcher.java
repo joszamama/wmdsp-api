@@ -30,7 +30,7 @@ public class Launcher {
 
         if (files != null) {
             for (File file : files) {
-                if (file.isFile() && file.getName().endsWith(".txt") && Math.random() <= 0.2) {
+                if (file.isFile() && file.getName().endsWith(".txt")) {
                     List<Result> results = launchGreedy(GRAPH_FOLDER + "/" + file.getName());
                     exportGreedy(results);
                 }
@@ -131,7 +131,7 @@ public class Launcher {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CSV_PATH, true)))) {
             if (!fileExists) {
                 writer.println(
-                        "filename;numVertices;numEdges;kWeight;maxIterations;removeVerticesPercentage;wheelIterations;insertionMethod;destructionMethod;reconstructionMethod;runtime(ms);size;solution");
+                        "filename;numVertices;numEdges;kWeight;maxIterations;removeVerticesPercentage;insertionMethod;destructionMethod;reconstructionMethod;runtime(ms);size;solution");
             }
 
             for (Result result : results) {
@@ -161,7 +161,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("random-greedy.csv", "random");
+        Launcher launcher = new Launcher("pepito-greedy.csv", "pepito");
         launcher.startGreedy();
     }
 }
