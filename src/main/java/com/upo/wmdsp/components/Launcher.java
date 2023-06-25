@@ -60,22 +60,16 @@ public class Launcher {
         List<Result> results = new ArrayList<>();
 
         List<Double> kWeights = List.of(0.1, 0.25, 0.5, 0.75, 1.0);
-        List<Integer> maxIterations = List.of(160);
-        List<Double> removeVerticesPercentages = List.of(0.2);
+        List<Integer> maxIterations = List.of(64, 96, 128, 160);
+        List<Double> removeVerticesPercentages = List.of(0.1, 0.2, 0.3, 0.4);
 
         List<InsertionMethod> insertionMethods = List.of(
                 InsertionMethod.COMPLETE_BASED_INSERTION);
 
         List<DestructionMethod> destructionMethods = List.of(
-                DestructionMethod.RANDOM_BASED_DESTRUCTION,
-                DestructionMethod.EDGE_BASED_DESTRUCTION,
-                DestructionMethod.CONTRIBUTION_BASED_DESTRUCTION,
-                DestructionMethod.COMPLETE_BASED_DESTRUCTION);
+                DestructionMethod.RANDOM_BASED_DESTRUCTION);
 
         List<ReconstructionMethod> reconstructionMethods = List.of(
-                ReconstructionMethod.RANDOM_BASED_RECONSTRUCTION,
-                ReconstructionMethod.EDGE_BASED_RECONSTRUCTION,
-                ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION,
                 ReconstructionMethod.COMPLETE_BASED_RECONSTRUCTION);
 
         for (Double kWeight : kWeights) {
@@ -88,7 +82,7 @@ public class Launcher {
                                 IG ig = new IG(filename, kWeight, maxIteration, removeVerticesPercentage,
                                         0, insertionMethod, destructionMethod, reconstructionMethod);
                                 System.out.println("Starting " + ig.toString());
-                                        results.add(ig.runGreedy());
+                                results.add(ig.runGreedy());
                             }
                         }
                     }
@@ -161,7 +155,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("pepito-greedy.csv", "pepito");
+        Launcher launcher = new Launcher("rerun-greedy.csv", "rerun");
         launcher.startGreedy();
     }
 }
