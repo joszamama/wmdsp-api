@@ -181,24 +181,30 @@ public class Graph {
         return dset;
     }
 
-    public Integer getNextBestEdgeBasedVertex(Set<Integer> vertexset) {
-        Integer bestVertex = -1;
-        int bestContribution = Integer.MIN_VALUE;
+    public Integer getNextBestEdgeBasedVertex(Set<Integer> vertexset) throws IndexOutOfBoundsException{
+        try {
+            Integer bestVertex = -1;
+            int bestContribution = Integer.MIN_VALUE;
 
-        Set<Integer> verticesToCheck = getUncoveredVertices(vertexset);
+            Set<Integer> verticesToCheck = getUncoveredVertices(vertexset);
 
-        for (Integer vertex : verticesToCheck) {
-            int contributionSum = edges.get(vertex).size();
-            if (contributionSum > bestContribution
-                    || (contributionSum == bestContribution && Math.random() >= 0.5)) {
-                bestVertex = vertex;
-                bestContribution = contributionSum;
+            for (Integer vertex : verticesToCheck) {
+                int contributionSum = edges.get(vertex).size();
+                if (contributionSum > bestContribution
+                        || (contributionSum == bestContribution && Math.random() >= 0.5)) {
+                    bestVertex = vertex;
+                    bestContribution = contributionSum;
+                }
             }
-        }
-        if (vertexset.contains(bestVertex)) {
+            if (vertexset.contains(bestVertex)) {
+                return getRandomVertex(vertexset);
+            }
+            return bestVertex;
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
             return getRandomVertex(vertexset);
         }
-        return bestVertex;
+        
     }
 
     public Integer getNextWorstEdgeBasedVertex(Set<Integer> dset) {

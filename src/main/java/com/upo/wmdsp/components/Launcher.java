@@ -70,7 +70,7 @@ public class Launcher {
                 DestructionMethod.RANDOM_BASED_DESTRUCTION);
 
         List<ReconstructionMethod> reconstructionMethods = List.of(
-                ReconstructionMethod.COMPLETE_BASED_RECONSTRUCTION);
+                ReconstructionMethod.EDGE_BASED_RECONSTRUCTION);
 
         for (Double kWeight : kWeights) {
             for (Integer maxIteration : maxIterations) {
