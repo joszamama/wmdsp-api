@@ -67,6 +67,7 @@ public class IG {
                     reconstructionMethod, MINUTES_TIMEOUT, System.currentTimeMillis());
 
             if (feasibleSolution.size() < currentBestSolution.size()) {
+                System.out.println("New best solution found: " + feasibleSolution.size());
                 currentBestSolution = new HashSet<>(feasibleSolution);
                 i = 0;
             } else {
@@ -99,7 +100,7 @@ public class IG {
         Set<Integer> startingSolution = Insertion.getInitialSolution(graph, insertionMethod);
         Set<Integer> currentBestSolution = new HashSet<>(startingSolution);
 
-        sizers.add(currentBestSolution.size());
+        sizers.add(startingSolution.size());
         timers.add((double) (System.currentTimeMillis() - startTime) / 1000);
 
         int i = 0;
@@ -118,6 +119,8 @@ public class IG {
                 currentBestSolution = new HashSet<>(feasibleSolution);
                 i = 0;
             } else {
+                sizers.add(currentBestSolution.size());
+                timers.add((double) (System.currentTimeMillis() - startTime) / 1000);
                 i++;
             }
 
@@ -202,7 +205,6 @@ public class IG {
                 WHEEL_ITERATIONS, insertionMethod, destructionMethod, reconstructionMethod, runtime, solution.size(), solution);
     }
 
-    // tostring
     public String toString() {
         return "IG [filename=" + filename + ", K_WEIGHT=" + K_WEIGHT + ", MAX_ITERATIONS_WITHOUT_IMPROVEMENT="
                 + MAX_ITERATIONS_WITHOUT_IMPROVEMENT + ", REMOVE_VERTICES_PERCENTAGE=" + REMOVE_VERTICES_PERCENTAGE
@@ -212,15 +214,15 @@ public class IG {
     }
 
     public static void main(String args[]) {
-        String file = "random/w_rnd_graph_4000_50_1.txt";
+        String file = "random/w_rnd_graph_1000_40_1.txt";
 
         Double K = 0.5;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
-        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 50;
+        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 64;
 
         InsertionMethod insertionMethod = InsertionMethod.RANDOM_BASED_INSERTION;
-        DestructionMethod destructionMethod = DestructionMethod.RANDOM_BASED_DESTRUCTION;
-        ReconstructionMethod reconstructionMethod = ReconstructionMethod.RANDOM_BASED_RECONSTRUCTION;
+        DestructionMethod destructionMethod = DestructionMethod.EDGE_BASED_DESTRUCTION;
+        ReconstructionMethod reconstructionMethod = ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION;
 
         IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 32,
                 insertionMethod, destructionMethod, reconstructionMethod);

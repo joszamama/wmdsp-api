@@ -39,7 +39,7 @@ public class Graph {
                     edges.get(j).put(i, weightsList[i].get(j));
                 }
             }
-            edges.get(i).put(i, GRAPH_K_WEIGHT); // Set weight of vertex i to 1
+            edges.get(i).put(i, GRAPH_K_WEIGHT);
         }
 
         supportVertices.addAll(vertices.stream()

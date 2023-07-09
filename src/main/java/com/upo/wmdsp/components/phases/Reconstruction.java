@@ -32,6 +32,6 @@ public class Reconstruction {
                     dset.add(graph.getRandomVertex());
             }
         }
-        return dset;
+        return graph.removeRedundantVertices(dset);
     }
 }
