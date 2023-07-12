@@ -58,7 +58,11 @@ public class IG {
         Set<Integer> startingSolution = Insertion.getInitialSolution(graph, insertionMethod);
         Set<Integer> currentBestSolution = new HashSet<>(startingSolution);
 
+        System.out.println("Starting solution: " + currentBestSolution.size());
+
         int i = 0;
+        int bestSize = 10000;
+        int same = 0;
         while (i < MAX_ITERATIONS_WITHOUT_IMPROVEMENT) {
             Set<Integer> nextSolution = new HashSet<>(currentBestSolution);
             Set<Integer> unfeasableSolution = Destruction.getUnfeasibleSolution(graph, nextSolution,
@@ -67,11 +71,20 @@ public class IG {
                     reconstructionMethod, MINUTES_TIMEOUT, System.currentTimeMillis());
 
             if (feasibleSolution.size() < currentBestSolution.size()) {
-                System.out.println("New best solution found: " + feasibleSolution.size());
+
+                bestSize = feasibleSolution.size();
+                System.out.println("New best solution found in iteration " + i + ": " + feasibleSolution.size());
                 currentBestSolution = new HashSet<>(feasibleSolution);
                 i = 0;
             } else {
                 i++;
+            }
+
+            if (currentBestSolution.size() == bestSize) {
+                same++;
+            } else {
+                bestSize = currentBestSolution.size();
+                same = 0;
             }
 
             if (System.currentTimeMillis() - startTime > MINUTES_TIMEOUT * 60 * 1000) {
@@ -80,6 +93,7 @@ public class IG {
             }
         }
 
+        System.out.println("Same: " + same);
         long endTime = System.currentTimeMillis();
 
         this.runtime = (endTime - startTime);
@@ -216,17 +230,17 @@ public class IG {
     public static void main(String args[]) {
         String file = "random/w_rnd_graph_1000_40_1.txt";
 
-        Double K = 0.5;
+        Double K = 1.0;
         double REMOVE_VERTICES_PERCENTAGE = 0.2;
-        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 64;
+        int MAX_ITERATIONS_WITHOUT_IMPROVEMENT = 1000;
 
         InsertionMethod insertionMethod = InsertionMethod.RANDOM_BASED_INSERTION;
-        DestructionMethod destructionMethod = DestructionMethod.EDGE_BASED_DESTRUCTION;
-        ReconstructionMethod reconstructionMethod = ReconstructionMethod.CONTRIBUTION_BASED_RECONSTRUCTION;
+        DestructionMethod destructionMethod = DestructionMethod.RANDOM_BASED_DESTRUCTION;
+        ReconstructionMethod reconstructionMethod = ReconstructionMethod.COMPLETE_BASED_RECONSTRUCTION;
 
         IG ig = new IG(file, K, MAX_ITERATIONS_WITHOUT_IMPROVEMENT, REMOVE_VERTICES_PERCENTAGE, 32,
                 insertionMethod, destructionMethod, reconstructionMethod);
 
-        System.out.println(ig.runConvergency());
+        System.out.println(ig.runGreedy());
     }
 }
