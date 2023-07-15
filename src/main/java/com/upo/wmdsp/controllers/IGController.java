@@ -43,7 +43,7 @@ public class IGController {
             ReconstructionMethod reconstructionMethod = ReconstructionMethod.valueOf(reconstructionMethodString);
 
             // Create a new IG object with the provided parameters
-            IG ig = new IG(fileName, weight, maxIterations, REMOVE_VERTICES_PERCENTAGE, insertionMethod,
+            IG ig = new IG("execution/" + fileName, weight, maxIterations, REMOVE_VERTICES_PERCENTAGE, insertionMethod,
                     destructionMethod, reconstructionMethod);
 
             // Run the greedy algorithm
