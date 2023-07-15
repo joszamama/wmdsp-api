@@ -19,7 +19,7 @@ public class MatrixRandomizer {
         // for each file, read the matrix and generate a random matrix
         // save the random matrix in the same folder with the same name
 
-        File folder = new File("./src/main/resources/graphs/hi/");
+        File folder = new File("./src/main/resources/graphs/subset/");
         File[] files = folder.listFiles();
 
         if (files != null) {
@@ -27,7 +27,7 @@ public class MatrixRandomizer {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
                     System.out.println(file.getName());
                     // Read the matrix
-                    double[][] adjMatrix = MatrixReader.readGraph("/hi/" + file.getName());
+                    double[][] adjMatrix = MatrixReader.readGraph("/subset/" + file.getName());
                     // for each position, if != 0, set a 50% chance of being 1 and 50% of being 0
                     for (int i = 0; i < adjMatrix.length; i++) {
                         for (int j = 0; j < adjMatrix[i].length; j++) {
@@ -37,7 +37,7 @@ public class MatrixRandomizer {
                         }
                     }
                     // Save the matrix file to the same folder
-                    PrintWriter writer = new PrintWriter(new File("./src/main/resources/graphs/hi/MOD_" + file.getName()));
+                    PrintWriter writer = new PrintWriter(new File("./src/main/resources/graphs/subset/MOD_" + file.getName()));
 
                     for (int i = 0; i < adjMatrix.length; i++) {
                         for (int j = 0; j < adjMatrix[i].length; j++) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.upo.wmdsp.components.IG;
-import com.upo.wmdsp.components.Result;
 import com.upo.wmdsp.components.methods.DestructionMethod;
 import com.upo.wmdsp.components.methods.InsertionMethod;
 import com.upo.wmdsp.components.methods.ReconstructionMethod;
@@ -43,14 +43,18 @@ public class IGController {
             ReconstructionMethod reconstructionMethod = ReconstructionMethod.valueOf(reconstructionMethodString);
 
             // Create a new IG object with the provided parameters
-            IG ig = new IG("execution/" + fileName, weight, maxIterations,
-                    REMOVE_VERTICES_PERCENTAGE, 0, insertionMethod, destructionMethod, reconstructionMethod);
+            IG ig = new IG(fileName, weight, maxIterations, REMOVE_VERTICES_PERCENTAGE, insertionMethod,
+                    destructionMethod, reconstructionMethod);
 
-            // Run the algorithm and get the result
-            Result result = ig.runGreedy();
+            // Run the greedy algorithm
+            List<Double> results = ig.runGreedy();
 
-            // Return the result as a string
-            return result.greedyToString();
+            // Delete the uploaded file
+            Files.delete(filePath);
+
+            // Return the results
+            return results.toString();
+
         } catch (IOException e) {
             e.printStackTrace();
             return "An error occurred during computation.";
