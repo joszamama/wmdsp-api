@@ -103,7 +103,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("random-greedy-all.csv", "random");
+        Launcher launcher = new Launcher("exp6.csv", "rerun");
         launcher.startGreedy();
     }
 }
