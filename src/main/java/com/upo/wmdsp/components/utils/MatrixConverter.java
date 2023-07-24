@@ -15,9 +15,6 @@ public class MatrixConverter {
                 PrintWriter writer = new PrintWriter(
                         new File("./src/main/resources/graphs/newfresh/" + outputFilename))) {
 
-            scanner.nextLine();
-            scanner.nextLine();
-
             String firstLine = scanner.nextLine();
             int nodes = firstLine.split(" ").length;
 

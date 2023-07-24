@@ -310,29 +310,13 @@ public class Graph {
     }
 
     public static void main(String[] args) {
-        Graph graph = new Graph("literature/w_lesmis.txt", 0.25);
+        Graph graph = new Graph("newfresh/w_lit_graph_400_20_1.txt", 0.5);
 
-        // add 32, 0, 38, 9, 74, 10, 45, 46, 48, 49, 50, 51, 21, 23, 25, 57
-        Set<Integer> dset = new HashSet<>();
-        dset.add(32);
-        dset.add(0);
-        dset.add(38);
-        dset.add(9);
-        dset.add(74);
-        dset.add(10);
-        dset.add(45);
-        dset.add(46);
-        dset.add(48);
-        dset.add(49);
-        dset.add(50);
-        dset.add(51);
-        dset.add(21);
-        dset.add(23);
-        dset.add(25);
-        dset.add(57);
+        // number of vertices
+        System.out.println(graph.getNumVertices());
 
-        while (true) {
-            System.out.println(graph.getNextBestEdgeBasedVertex(dset));
-        }
+        // number of edges
+        System.out.println(graph.getNumEdges());
+
     }
 }
